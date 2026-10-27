@@ -163,7 +163,8 @@ function card(s: Server, index: number) {
     live = online(s),
     stale = !current(),
     cores = cpuCount(h.cpu);
-  const cpu = typeof st.cpu === "number" ? Math.min(100, finite(st.cpu)) : null;
+  // Nezha omits zero-valued state fields; a present state with no cpu means 0%.
+  const cpu = s.state ? Math.min(100, finite(st.cpu)) : null;
   const memory = percent(st.mem_used, h.mem_total),
     disk = percent(st.disk_used, h.disk_total);
   const orderButtons = editing
@@ -181,7 +182,7 @@ function card(s: Server, index: number) {
 function renderStats() {
   const active = servers.filter(online),
     total = servers.length;
-  const cpu = active.filter((s) => typeof s.state?.cpu === "number");
+  const cpu = active;
   const average = cpu.length
     ? (
         cpu.reduce((sum, s) => sum + finite(s.state?.cpu), 0) / cpu.length

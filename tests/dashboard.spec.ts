@@ -37,6 +37,7 @@ test("manual order survives reload and deep theme preference persists", async ({
   await page.reload();
   await expect(page.locator(".node-name").first()).toContainText("东京");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("body")).toHaveCSS("color", "rgb(224, 232, 197)");
 });
 test("live mode reads same-origin v2 frames and escapes public notes", async ({
   page,
@@ -58,6 +59,7 @@ test("live mode reads same-origin v2 frames and escapes public notes", async ({
         data: {
           servers: demoServers().map((s) => ({
             ...s,
+            state: { ...s.state, cpu: s.id === 102 ? undefined : s.state?.cpu },
             public_note: '<img src=x onerror="window.__injected=true">',
           })),
         },
@@ -69,6 +71,12 @@ test("live mode reads same-origin v2 frames and escapes public notes", async ({
   await expect(page.locator("#connection-label")).toHaveText("实时连接");
   await expect(page.locator(".node-card")).toHaveCount(6);
   await expect(page.locator(".node-name").first()).toContainText("东京");
+  await expect(
+    page
+      .locator(".node-card")
+      .first()
+      .getByRole("meter", { name: "CPU使用率" }),
+  ).toHaveAttribute("aria-valuenow", "0.0");
   await expect(page.locator(".node-name").nth(1)).toHaveText("自定义别名");
   await expect(page.locator(".card-note").first()).toContainText("<img");
   expect(

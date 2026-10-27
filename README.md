@@ -41,6 +41,8 @@ npm run build
 sudo python3 scripts/install.py --dashboard-dir /opt/nezha/dashboard --dist dist
 ```
 
+也可从 [Releases](https://github.com/xuanvivo/nezha-pixel-deck/releases) 下载已构建的 `dist.zip`，解压后使用仓库内的安装脚本。
+
 实际工作目录和模板设置需与你的部署一致。安装器只安装静态主题，提供旧版本备份和回滚记录。**完整步骤、容器挂载、代理、定制与回滚见 [部署文档](docs/deployment.md)。**
 
 可在部署机器创建 `config.local.json`，设置站点标题、默认顺序、别名和节点说明；示例见 [config.example.json](public/config.example.json)。该文件是公开文件，只放允许访客看到的信息。

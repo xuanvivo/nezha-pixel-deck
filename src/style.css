@@ -8,7 +8,7 @@
 }
 :root {
   font-family: Pixel, ui-monospace, monospace;
-  color: #263e2c;
+  color: var(--ink);
   background: #eff2db;
   --bg: #eff2db;
   --ink: #263e2c;
