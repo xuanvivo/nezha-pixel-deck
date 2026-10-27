@@ -42,7 +42,6 @@ export interface Group {
 }
 export interface Config {
   siteName?: string;
-  subtitle?: string;
   serverOrder?: number[];
   aliases?: Record<string, string>;
   descriptions?: Record<string, string>;
@@ -198,7 +197,7 @@ export function parseConfig(raw: unknown): Config {
   if (!raw || typeof raw !== "object") return {};
   const r = raw as Record<string, unknown>;
   const config: Config = {};
-  for (const key of ["siteName", "subtitle"] as const)
+  for (const key of ["siteName"] as const)
     if (typeof r[key] === "string") config[key] = r[key];
   if (Array.isArray(r.serverOrder))
     config.serverOrder = [

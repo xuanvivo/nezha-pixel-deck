@@ -45,7 +45,6 @@ sudoedit /opt/nezha/dashboard/user-dist/config.local.json
 | 字段 | 用途 |
 | --- | --- |
 | `siteName` | 标题；不填则读取后台站点名称 |
-| `subtitle` | 首页说明，支持 `\n` 换行 |
 | `serverOrder` | 默认节点 ID 顺序，新节点按后台权重追加 |
 | `aliases` | 节点 ID 到展示名称的映射 |
 | `descriptions` | 节点 ID 到公开说明的映射 |

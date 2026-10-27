@@ -1,19 +1,3 @@
-const pine = (x: number, y: number, s = 1, color = "#446748") =>
-  `<g transform="translate(${x} ${y}) scale(${s})"><path fill="${color}" d="M16 0h8v8h8v8h8v8h-8v8h16v8H32v8h24v8H0v-8h16v-8H8v-8h16v-8H8v-8h8z"/><path fill="#75825a" d="M24 56h8v16h-8z"/></g>`;
-export const landscape = `<svg class="landscape" viewBox="0 0 480 232" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" aria-hidden="true">
-<path fill="#dce7ad" d="M0 0h480v232H0z"/>
-<path fill="#f6edb0" d="M352 24h48v8h8v40h-8v8h-48v-8h-8V32h8z"/>
-<path fill="#c1d298" d="M0 120h24v-16h24V88h24V72h32v16h24v16h24v16h40V96h24V80h32v16h24v16h24v16h32V96h24V80h24V64h32v16h24v16h24v16h40v120H0z"/>
-<path fill="#9eb981" d="M0 160h32v-16h32v-16h32v-16h32v16h32v16h48v16h32v-16h32v-16h40v16h32v16h48v-16h32v-16h32v-16h24v16h20v104H0z"/>
-<path fill="#7e9c66" d="M0 192h56v-8h64v8h72v-16h80v8h96v-8h56v16h56v40H0z"/>
-${pine(18, 93, 1.2, "#56774e")}${pine(76, 132, 0.8, "#678751")}${pine(385, 88, 1.4)}${pine(443, 144, 0.7, "#56774e")}
-<path fill="#527447" d="M0 216h72v-8h56v8h112v-8h128v8h112v16H0z"/>
-<path fill="#e4d496" d="M242 216h40v8h24v8h-96v-8h32z"/>
-<g transform="translate(174 66)"><path fill="#26432e" d="M16 0h112v8h8v128h-8v8H16v-8H8V8h8z"/><path fill="#4e6a41" d="M16 8h112v120H16z"/><path fill="#bed18c" d="M24 16h96v32H24zm0 40h96v32H24zm0 40h96v24H24z"/><path fill="#789959" d="M32 24h48v16H32zm0 40h48v16H32zm0 40h48v8H32z"/><path fill="#e8d78a" d="M96 24h16v8H96zm0 40h16v8H96z"/><path fill="#26432e" d="M32 136h16v8H32zm64 0h16v8H96z"/><path fill="#95bd65" d="M24 4h96v4H24z"/></g>
-<path fill="#d5e59c" d="M146 120h8v8h8v8h-8v8h-8v-8h-8v-8h8zm198 30h8v8h8v8h-8v8h-8v-8h-8v-8h8z"/>
-<path fill="#e6df9b" d="M24 216h8v8h-8zm112-8h8v8h-8zm192 8h8v8h-8zm80-8h8v8h-8z"/>
-<path fill="#fff7cb" d="M132 28h8v8h-8zm156-4h8v8h-8zm152 52h8v8h-8z"/>
-</svg>`;
 export const paths: Record<string, string> = {
   server: "M3 2h10v5H3zM3 9h10v5H3zM5 4h4M11 4h1M5 11h4M11 11h1",
   search: "M2 2h7v7H2zM9 9h2v2h2v2h2",

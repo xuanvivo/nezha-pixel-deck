@@ -1,5 +1,5 @@
 import "./style.css";
-import { landscape, icon } from "./art";
+import { icon } from "./art";
 import { demoServers, demoGroups } from "./demo";
 import {
   bytes,
@@ -88,12 +88,12 @@ const stateText = () =>
   })[phase];
 
 app.innerHTML = `
-<header class="topbar"><div class="topbar-inner"><a href="${demo ? "/?demo=1" : "/"}" class="brand"><span class="brand-mark">${icon("server")}</span><span><strong id="site-name">PIXEL DECK</strong><small>NEZHA MONITORING / 像素监控台</small></span></a>
+<header class="topbar"><div class="topbar-inner"><a href="${demo ? "/?demo=1" : "/"}" class="brand"><span class="brand-mark">${icon("server")}</span><span><strong id="site-name">PIXEL DECK</strong><small>像素监控台</small></span></a>
 <nav aria-label="主导航"><a class="nav-current" href="#nodes">${icon("grid")}节点总览</a><button id="help-button">${icon("book")}使用说明</button><a href="/dashboard/" class="admin-link">管理后台 ${icon("arrow")}</a><button id="theme-button" class="icon-button" aria-label="切换深浅主题">${icon("moon")}</button></nav></div></header>
-<main class="shell"><section class="hero frame"><div class="hero-copy"><div class="eyebrow"><span class="pixel-cross">+</span> A LITTLE PIXEL, A CLEARER WORLD.</div><h1>像素之间，<br>尽览每一台。</h1><p id="subtitle">把散落各处的服务器，装进一方像素世界。<br>运行状态、资源与流量，一眼有数。</p><div class="hero-bottom"><span class="connection"><i class="status-dot"></i><span id="connection-label" role="status">${stateText()}</span></span><span class="edition">VOL. 01 / ALWAYS IN SIGHT</span></div></div><div class="hero-art">${landscape}<span class="art-label">YOUR LITTLE SERVER FOREST</span></div></section>
-<div class="demo-notice" ${demo ? "" : "hidden"}>${icon("spark")}当前是演示世界：所有节点、名称与指标均为虚构，不连接真实服务器。<a href="/">返回实时面板 ${icon("arrow")}</a></div>
+<main class="shell"><h1 class="sr-only">服务器监控</h1><div class="statusbar"><span class="connection"><i class="status-dot"></i><span id="connection-label" role="status">${stateText()}</span></span><span class="last-update" id="last-update">等待首次上报</span></div>
+<div class="demo-notice" ${demo ? "" : "hidden"}>${icon("spark")}演示数据均为虚构。<a href="/">实时面板 ${icon("arrow")}</a></div>
 <section class="stats" aria-label="服务器概况" id="stats"></section>
-<section class="nodes-section" id="nodes"><div class="section-heading"><div><span class="eyebrow">THE FLEET / 01</span><h2>${icon("server")}我的服务器 <span id="visible-count">—</span></h2></div><span class="last-update" id="last-update">等待首次上报</span></div>
+<section class="nodes-section" id="nodes"><div class="section-heading"><div><h2>${icon("server")}我的服务器 <span id="visible-count">—</span></h2></div></div>
 <div class="control-panel frame"><div class="toolbar"><label class="search">${icon("search")}<input id="search" type="search" placeholder="搜索节点名称、地区或备注…" aria-label="搜索节点" autocomplete="off"><kbd>/</kbd></label><label class="sort-select">${icon("sort")}<span class="sr-only">服务器排序</span><select id="sort">${Object.entries(
   sorts,
 )
@@ -105,9 +105,9 @@ app.innerHTML = `
 <div id="order-hint" class="order-hint" hidden>使用卡片上的前移 / 后移按钮调整顺序，自动保存在当前浏览器。<button class="text-button" id="reset-order">恢复面板顺序</button><button class="small-button" id="finish-order">完成</button></div>
 <div id="connection-notice" class="connection-notice" role="status" hidden></div>
 <div id="node-grid" class="node-grid" aria-label="服务器列表"></div>
-<div class="fleet-footnote"><span>◈ 数值随探针上报刷新 · 流量为累计收发量</span><a href="#guide">如何读懂这些指标 ${icon("arrow")}</a></div></section>
-<section class="guide frame" id="guide"><div class="guide-heading"><span class="guide-mark">${icon("book")}</span><div><span class="eyebrow">FIELD NOTES / 02</span><h2>看懂状态，再安心出发。</h2></div><span class="guide-tag">监控小手册</span></div><div class="guide-grid"><article><span class="guide-number">01</span><h3>资源条在说什么？</h3><p>CPU 是当前使用率；内存与磁盘为已用容量占总量的比例。绿色表示余量充足，70% 起变为黄色，90% 起变为红色。</p></article><article><span class="guide-number">02</span><h3>上下行与累计流量</h3><p>↓ 是服务器接收，↑ 是服务器发送；速率单位为字节每秒。累计流量来自探针计数，通常随系统重启归零，不代表本月账单。</p></article><article><span class="guide-number">03</span><h3>在线，也要看新鲜度</h3><p>最近 30 秒有探针上报才算在线。断线或数据过期时，页面会明确提示，并把旧读数标为快照，避免误判为实时状态。</p></article></div><details class="more-guide"><summary>排序、隐私与更多说明 <span>+</span></summary><div><p><b>排序：</b>默认按后台展示权重降序、ID 升序排列。可按名称、地区、CPU、内存、累计流量或运行时长排序。「在线优先」会先分在线 / 离线，再应用选定顺序。</p><p><b>我的顺序：</b>通过「调整顺序」前移或后移节点，仅保存在当前浏览器。管理员可使用独立站点配置中的 serverOrder 给所有访客指定默认顺序。</p><p><b>节点详情：</b>点击节点名称或「查看详情」，查看硬件、负载、连接数和本次打开页面后的短时趋势。缺失字段显示 —，趋势不等同于历史监控。</p><p><b>隐私：</b>页面只读取当前访问权限允许的哪吒数据。隐藏节点与敏感信息必须由哪吒后台限制；前端别名、折叠备注或不展示字段不能替代后端权限。</p></div></details></section>
-<footer><a class="footer-brand" href="https://github.com/xuanvivo/nezha-pixel-deck" target="_blank" rel="noreferrer">${icon("server")} NEZHA PIXEL DECK</a><span>小小像素，认真守望。<span class="footer-dots"> ▪ ▪ ▪</span></span><a href="https://github.com/xuanvivo/nezha-pixel-deck" target="_blank" rel="noreferrer">${icon("github")}开源主题 ${icon("arrow")}</a></footer>
+<div class="fleet-footnote"><span>◈ 数值随探针上报刷新 · 流量为累计收发量</span><a href="#guide" id="guide-link">指标说明 ${icon("arrow")}</a></div></section>
+<details class="guide frame" id="guide"><summary class="guide-heading"><span class="guide-mark">${icon("book")}</span><span class="guide-title">指标与使用说明</span><span class="guide-toggle" aria-hidden="true">+</span></summary><div class="guide-grid"><article><h3>资源使用率</h3><p>CPU 是当前使用率；内存与磁盘为已用容量占总量的比例。绿色表示余量充足，70% 起变为黄色，90% 起变为红色。</p></article><article><h3>上下行与累计流量</h3><p>↓ 是服务器接收，↑ 是服务器发送；速率单位为字节每秒。累计流量来自探针计数，通常随系统重启归零，不代表本月账单。</p></article><article><h3>在线与数据时效</h3><p>最近 30 秒有探针上报才算在线。断线或数据过期时，页面会明确提示，并把旧读数标为快照，避免误判为实时状态。</p></article></div><details class="more-guide"><summary>排序、隐私与更多说明 <span>+</span></summary><div><p><b>排序：</b>默认按后台展示权重降序、ID 升序排列。可按名称、地区、CPU、内存、累计流量或运行时长排序。「在线优先」会先分在线 / 离线，再应用选定顺序。</p><p><b>我的顺序：</b>通过「调整顺序」前移或后移节点，仅保存在当前浏览器。管理员可使用独立站点配置中的 serverOrder 给所有访客指定默认顺序。</p><p><b>节点详情：</b>点击节点名称或「查看详情」，查看硬件、负载、连接数和本次打开页面后的短时趋势。缺失字段显示 —，趋势不等同于历史监控。</p><p><b>隐私：</b>页面只读取当前访问权限允许的哪吒数据。隐藏节点与敏感信息必须由哪吒后台限制；前端别名、折叠备注或不展示字段不能替代后端权限。</p></div></details></details>
+<footer><a class="footer-brand" href="https://github.com/xuanvivo/nezha-pixel-deck" target="_blank" rel="noreferrer">${icon("server")} NEZHA PIXEL DECK</a><a href="https://github.com/xuanvivo/nezha-pixel-deck" target="_blank" rel="noreferrer">${icon("github")}开源主题 ${icon("arrow")}</a></footer>
 </main><dialog id="detail" aria-labelledby="detail-title"><div id="detail-body"></div></dialog><div id="announcement" class="sr-only" role="status" aria-live="polite"></div>`;
 
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) =>
@@ -205,7 +205,7 @@ function renderStats() {
   );
   const known = hasFrame;
   $("#stats").innerHTML =
-    `<div class="stat frame stat-online"><span class="stat-label"><span class="status-dot ${current() ? "" : "offline"}"></span>在线节点 <small>FLEET STATUS</small></span><strong>${known ? active.length : "—"}<small>/ ${known ? total : "—"}</small></strong><div class="stat-bottom"><span>${known ? total - active.length + (current() ? " 台离线" : " 台状态待确认") : "等待首次上报"}</span><span>${known && total && current() ? Math.round((active.length / total) * 100) + "% ONLINE" : "—"}</span></div></div><div class="stat frame"><span class="stat-label">平均 CPU <small>COMPUTE</small></span><strong>${current() ? average : "—"}<small>%</small></strong><div class="stat-bottom"><span>在线节点算术平均</span><span class="mini-bars">▂ ▄ ▃ ▆ ▄ ▂</span></div></div><div class="stat frame"><span class="stat-label">实时上下行 <small>NETWORK</small></span><div class="stat-network"><strong><small>↓</small> ${current() && known ? bytes(incoming) : "—"}<small>/s</small></strong><span>↑ ${current() && known ? bytes(outgoing) + "/s" : "—"}</span></div><div class="stat-bottom"><span>在线节点速率合计</span><span>IN / OUT</span></div></div><div class="stat frame"><span class="stat-label">累计流量 <small>TRANSFER</small></span><strong class="traffic-total">${known ? bytes(traffic) : "—"}</strong><div class="stat-bottom"><span>收发合计 · 非月度用量</span><span>↗</span></div></div>`;
+    `<div class="stat frame stat-online"><span class="stat-label"><span class="status-dot ${current() ? "" : "offline"}"></span>在线节点 </span><strong>${known ? active.length : "—"}<small>/ ${known ? total : "—"}</small></strong><div class="stat-bottom"><span>${known ? total - active.length + (current() ? " 台离线" : " 台状态待确认") : "等待首次上报"}</span><span>${known && total && current() ? Math.round((active.length / total) * 100) + "% 在线" : "—"}</span></div></div><div class="stat frame"><span class="stat-label">平均 CPU </span><strong>${current() ? average : "—"}<small>%</small></strong><div class="stat-bottom"><span>在线节点算术平均</span></div></div><div class="stat frame"><span class="stat-label">实时上下行 </span><div class="stat-network"><strong><small>↓</small> ${current() && known ? bytes(incoming) : "—"}<small>/s</small></strong><span>↑ ${current() && known ? bytes(outgoing) + "/s" : "—"}</span></div><div class="stat-bottom"><span>在线节点速率合计</span><span>IN / OUT</span></div></div><div class="stat frame"><span class="stat-label">累计流量 </span><strong class="traffic-total">${known ? bytes(traffic) : "—"}</strong><div class="stat-bottom"><span>收发合计 · 非月度用量</span><span>↗</span></div></div>`;
 }
 function renderFilters() {
   $("#groups").innerHTML =
@@ -253,7 +253,7 @@ function render() {
     : "还没有收到服务器数据。请确认面板连接和访问权限；页面会继续自动重连。";
   $("#node-grid").innerHTML = visible.length
     ? visible.map(card).join("")
-    : `<div class="empty-state frame">${icon(hasFrame ? "search" : "server")}<h3>${hasFrame ? (servers.length ? "没有匹配的节点" : "还没有可见节点") : "正在接收你的像素世界…"}</h3><p>${hasFrame ? (servers.length ? "试试其他关键词，或清除分组与地区筛选。" : "检查后台节点是否允许访客查看，或进入管理后台登录。") : "等待哪吒面板的首次实时上报。"}</p>${hasFrame && servers.length ? '<button id="clear-filters" class="small-button">清除筛选</button>' : '<a href="/dashboard/" class="small-button">进入后台</a>'}</div>`;
+    : `<div class="empty-state frame">${icon(hasFrame ? "search" : "server")}<h3>${hasFrame ? (servers.length ? "没有匹配的节点" : "还没有可见节点") : "等待服务器上报"}</h3><p>${hasFrame ? (servers.length ? "试试其他关键词，或清除分组与地区筛选。" : "检查后台节点是否允许访客查看，或进入管理后台登录。") : "等待哪吒面板的首次实时上报。"}</p>${hasFrame && servers.length ? '<button id="clear-filters" class="small-button">清除筛选</button>' : '<a href="/dashboard/" class="small-button">进入后台</a>'}</div>`;
   if (detailId)
     document
       .querySelector<HTMLElement>(`[data-detail="${detailId}"]`)
@@ -280,7 +280,7 @@ function renderDetail() {
   const pair = (label: string, value: string) =>
     `<div><dt>${label}</dt><dd>${value}</dd></div>`;
   $("#detail-body").innerHTML =
-    `<div class="detail-heading"><span class="eyebrow">NODE DETAILS / ${s.id}</span><button id="close-detail" class="icon-button" aria-label="关闭详情">${icon("close")}</button></div><h2 id="detail-title">${name(s)}</h2><p class="detail-summary">${e(regionName(s.country_code))} · ${online(s) ? "在线" : "快照 / 离线"} · ${e(h.platform || "系统未上报")}</p>${noteOf(s) ? `<p class="detail-note">${e(noteOf(s))}</p>` : ""}<dl class="detail-facts">${pair("架构 / 虚拟化", e([h.arch, h.virtualization].filter(Boolean).join(" / ") || "—"))}${pair("CPU", Array.isArray(h.cpu) && h.cpu.length ? `${cpuCount(h.cpu) ? cpuCount(h.cpu) + " vCPU · " : ""}${e(h.cpu[0])}` : "—")}${pair("内存", finite(h.mem_total) ? `${bytes(st.mem_used)} / ${bytes(h.mem_total)}` : "—")}${pair("磁盘", finite(h.disk_total) ? `${bytes(st.disk_used)} / ${bytes(h.disk_total)}` : "—")}${pair("Swap", finite(h.swap_total) ? `${bytes(st.swap_used)} / ${bytes(h.swap_total)}` : "—")}${pair("运行时间", st.uptime == null ? "—" : uptime(st.uptime))}${pair("负载 1 / 5 / 15 分", [st.load_1, st.load_5, st.load_15].map((n) => (n == null ? "—" : finite(n).toFixed(2))).join(" / "))}${pair("TCP / UDP 连接", `${e(st.tcp_conn_count ?? "—")} / ${e(st.udp_conn_count ?? "—")}`)}${pair("累计接收 / 发送", `${bytes(st.net_in_transfer)} / ${bytes(st.net_out_transfer)}`)}${pair("最后上报", e(s.last_active && Number.isFinite(Date.parse(s.last_active)) ? new Date(s.last_active).toLocaleString("zh-CN") : "—"))}</dl><div class="detail-chart"><span>CPU · 本次会话短时趋势</span>${sparkline(hist?.cpu || [], "", 440, 76)}<small>最多保留 30 次上报 · 仅在内存中保存 · 刷新后清空</small></div><div class="detail-chart"><span>发送速率 · 本次会话短时趋势</span>${sparkline(hist?.out || [], "", 440, 76)}</div>`;
+    `<div class="detail-heading"><span class="eyebrow">节点详情 / ${s.id}</span><button id="close-detail" class="icon-button" aria-label="关闭详情">${icon("close")}</button></div><h2 id="detail-title">${name(s)}</h2><p class="detail-summary">${e(regionName(s.country_code))} · ${online(s) ? "在线" : "快照 / 离线"} · ${e(h.platform || "系统未上报")}</p>${noteOf(s) ? `<p class="detail-note">${e(noteOf(s))}</p>` : ""}<dl class="detail-facts">${pair("架构 / 虚拟化", e([h.arch, h.virtualization].filter(Boolean).join(" / ") || "—"))}${pair("CPU", Array.isArray(h.cpu) && h.cpu.length ? `${cpuCount(h.cpu) ? cpuCount(h.cpu) + " vCPU · " : ""}${e(h.cpu[0])}` : "—")}${pair("内存", finite(h.mem_total) ? `${bytes(st.mem_used)} / ${bytes(h.mem_total)}` : "—")}${pair("磁盘", finite(h.disk_total) ? `${bytes(st.disk_used)} / ${bytes(h.disk_total)}` : "—")}${pair("Swap", finite(h.swap_total) ? `${bytes(st.swap_used)} / ${bytes(h.swap_total)}` : "—")}${pair("运行时间", st.uptime == null ? "—" : uptime(st.uptime))}${pair("负载 1 / 5 / 15 分", [st.load_1, st.load_5, st.load_15].map((n) => (n == null ? "—" : finite(n).toFixed(2))).join(" / "))}${pair("TCP / UDP 连接", `${e(st.tcp_conn_count ?? "—")} / ${e(st.udp_conn_count ?? "—")}`)}${pair("累计接收 / 发送", `${bytes(st.net_in_transfer)} / ${bytes(st.net_out_transfer)}`)}${pair("最后上报", e(s.last_active && Number.isFinite(Date.parse(s.last_active)) ? new Date(s.last_active).toLocaleString("zh-CN") : "—"))}</dl><div class="detail-chart"><span>CPU · 本次会话短时趋势</span>${sparkline(hist?.cpu || [], "", 440, 76)}<small>最多保留 30 次上报 · 仅在内存中保存 · 刷新后清空</small></div><div class="detail-chart"><span>发送速率 · 本次会话短时趋势</span>${sparkline(hist?.out || [], "", 440, 76)}</div>`;
   $("#close-detail").onclick = closeDetail;
   if (focused === "close-detail")
     $("#close-detail").focus({ preventScroll: true });
@@ -364,12 +364,20 @@ function updateThemeButton() {
   );
 }
 updateThemeButton();
-$("#help-button").onclick = () =>
-  $("#guide").scrollIntoView({
+function openGuide() {
+  const guide = $("#guide") as HTMLDetailsElement;
+  guide.open = true;
+  guide.scrollIntoView({
     behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
       ? "instant"
       : "smooth",
   });
+}
+$("#help-button").onclick = openGuide;
+$("#guide-link").onclick = (event) => {
+  event.preventDefault();
+  openGuide();
+};
 function finishOrder() {
   editing = false;
   $("#order-hint").hidden = true;
@@ -531,11 +539,7 @@ function connect() {
 }
 async function init() {
   if (demo) {
-    config = {
-      siteName: "像素探针",
-      subtitle:
-        "把散落各处的服务器，装进一方像素世界。\n运行状态、资源与流量，一眼有数。",
-    };
+    config = { siteName: "像素探针" };
     groups = demoGroups;
     phase = "demo";
     receive(demoServers());
@@ -609,7 +613,6 @@ async function init() {
   }
   $("#site-name").textContent = config.siteName || "PIXEL DECK";
   document.title = `${config.siteName || "Nezha Pixel Deck"} · 像素监控台${demo ? " · 演示" : ""}`;
-  if (config.subtitle) $("#subtitle").textContent = config.subtitle;
 }
 render();
 void init();
