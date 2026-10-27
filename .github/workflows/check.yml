@@ -6,7 +6,8 @@ permissions:
   contents: read
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,8 +18,11 @@ jobs:
       - run: npm run check:privacy
       - run: npm test
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      - name: Install Chromium headless shell
+        run: npx playwright install --only-shell chromium
+        timeout-minutes: 5
       - run: npm run test:e2e
+        timeout-minutes: 3
       - uses: actions/upload-artifact@v4
         with:
           name: nezha-pixel-deck-dist
