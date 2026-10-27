@@ -37,7 +37,7 @@ test("manual order survives reload and deep theme preference persists", async ({
   await page.reload();
   await expect(page.locator(".node-name").first()).toContainText("东京");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(page.locator("body")).toHaveCSS("color", "rgb(243, 234, 214)");
+  await expect(page.locator("body")).toHaveCSS("color", "rgb(233, 227, 215)");
 });
 test("live mode reads same-origin v2 frames and escapes public notes", async ({
   page,
