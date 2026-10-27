@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#203c2c" />
+    <meta name="description" content="像素之间，尽览每一台服务器的实时状态。" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Nezha Pixel Deck · 像素监控台</title>
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("pixel-deck:theme") === "dark"
+            ? "dark"
+            : "light";
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#nodes">跳到服务器列表</a>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
